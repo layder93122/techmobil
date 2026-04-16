@@ -9,18 +9,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SecurityConfig {
 
-    private static final String ACTION_1 = "acción1"; // Cumple con la normativa
-
-    public void ejecutar() {
-        prepare(ACTION_1); // Cumple
-        ejecutar(ACTION_1);
-        liberar(ACTION_1);
-    }
-
-    // Métodos auxiliares para evitar errores de compilación
-    private void prepare(String action) {}
-    private void ejecutar(String action) {}
-    private void liberar(String action) {}
+    private static final String LOGIN_URL = "/login";
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -39,7 +28,7 @@ public class SecurityConfig {
                 // 🔐 Permisos
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/login",
+                                LOGIN_URL,
                                 "/h2-console/**",
                                 "/css/**",
                                 "/js/**",
@@ -50,16 +39,16 @@ public class SecurityConfig {
 
                 // 🔑 Login personalizado
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/admin/dashboard", true) // ✅ AQUÍ VA
+                        .loginPage(LOGIN_URL)
+                        .loginProcessingUrl(LOGIN_URL)
+                        .defaultSuccessUrl("/admin/dashboard", true)
                         .permitAll()
                 )
 
                 // 🚪 Logout
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .logoutSuccessUrl("/login?logout")
+                        .logoutSuccessUrl(LOGIN_URL + "?logout")
                         .permitAll()
                 );
 
