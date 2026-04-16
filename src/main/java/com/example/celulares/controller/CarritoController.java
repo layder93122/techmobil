@@ -13,8 +13,9 @@ import java.util.*;
 @RequestMapping("/carrito")
 public class CarritoController {
 
-    // SonarQube prefiere constantes públicas para rutas o llaves de sesión
+    // 1. Constantes para evitar duplicados según SonarCloud
     public static final String CARRITO_KEY = "carrito";
+    private static final String REDIRECT_HOME = "redirect:/";
 
     @Autowired
     private CelularService celularService;
@@ -29,7 +30,6 @@ public class CarritoController {
         carrito.put(id, carrito.getOrDefault(id, 0) + 1);
         session.setAttribute(CARRITO_KEY, carrito);
 
-        // Actualizar totales
         session.setAttribute("totalItems", carrito.values().stream().mapToInt(i -> i).sum());
 
         List<Map<String, Object>> detallesSidebar = new ArrayList<>();
@@ -50,7 +50,7 @@ public class CarritoController {
         session.setAttribute("carritoItems", detallesSidebar);
         session.setAttribute("totalPagar", total);
 
-        return "redirect:/";
+        return REDIRECT_HOME; // Usamos la constante aquí
     }
 
     @GetMapping("/ver")
@@ -82,7 +82,7 @@ public class CarritoController {
         Map<Long, Integer> carrito = (Map<Long, Integer>) session.getAttribute(CARRITO_KEY);
 
         if (carrito == null || carrito.isEmpty()) {
-            return "redirect:/";
+            return REDIRECT_HOME; // Usamos la constante aquí
         }
 
         List<Map<String, Object>> detalles = new ArrayList<>();
@@ -114,6 +114,6 @@ public class CarritoController {
         session.removeAttribute("totalItems");
         session.removeAttribute("carritoItems");
         session.removeAttribute("totalPagar");
-        return "redirect:/";
+        return REDIRECT_HOME; // Usamos la constante aquí
     }
 }
