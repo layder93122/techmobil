@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -16,23 +17,22 @@ public class CelularController {
     @Autowired
     private CelularService celularService;
 
-    // 1. LISTAR PRODUCTOS (Página principal)
+    // 1. LISTAR PRODUCTOS
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("lista", celularService.obtenerTodos());
+        model.addAttribute("lista", celularService.listarTodos()); // ✔ CORREGIDO
         model.addAttribute("titulo", "NOVEDADES Y DESTACADOS");
         return "index";
     }
 
-    // 2. MOSTRAR FORMULARIO PARA NUEVO PRODUCTO
-    // Esta ruta soluciona el error 404 al hacer clic en "+ Vender"
+    // 2. FORMULARIO NUEVO
     @GetMapping("/nuevo")
     public String mostrarFormularioNuevo(Model model) {
         model.addAttribute("celular", new Celular());
         return "formulario";
     }
 
-    // 3. MOSTRAR FORMULARIO PARA EDITAR PRODUCTO EXISTENTE
+    // 3. EDITAR PRODUCTO
     @GetMapping("/nuevo/{id}")
     public String editarCelular(@PathVariable Long id, Model model) {
         Celular celular = celularService.obtenerPorId(id);
@@ -40,27 +40,31 @@ public class CelularController {
         return "formulario";
     }
 
-    // 4. GUARDAR O ACTUALIZAR PRODUCTO (Incluye manejo de imagen)
+    // 4. GUARDAR PRODUCTO + IMAGEN
     @PostMapping("/guardar")
-    public String guardar(Celular celular, @RequestParam("archivoImagen") MultipartFile archivo) {
+    public String guardar(Celular celular,
+                          @RequestParam("archivoImagen") MultipartFile archivo) {
+
         if (!archivo.isEmpty()) {
             String rutaAbsoluta = "D:\\celulares\\imagenes";
+
             try {
                 Path directorio = Paths.get(rutaAbsoluta);
+
                 if (!Files.exists(directorio)) {
                     Files.createDirectories(directorio);
                 }
 
-                byte[] bytesImg = archivo.getBytes();
-                Path rutaCompleta = Paths.get(rutaAbsoluta + "\\" + archivo.getOriginalFilename());
-                Files.write(rutaCompleta, bytesImg);
+                Path rutaCompleta = Paths.get(rutaAbsoluta, archivo.getOriginalFilename());
+                Files.write(rutaCompleta, archivo.getBytes());
 
-                // Guardamos solo el nombre del archivo en la base de datos
                 celular.setImagen(archivo.getOriginalFilename());
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
         celularService.guardar(celular);
         return "redirect:/";
     }

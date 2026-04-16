@@ -4,9 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boleta de Venta - TechMóbil</title>
+
+    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
     <style>
         body { background-color: #f8fafc; font-family: 'Segoe UI', sans-serif; }
+
         .boleta-container {
             max-width: 700px;
             margin: 40px auto;
@@ -15,25 +22,40 @@
             border: 1px solid #e2e8f0;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
+
         .linea-decorativa {
             border-top: 2px solid #3b82f6;
             width: 50px;
             margin: 10px auto;
         }
+
         @media print {
             .d-print-none { display: none !important; }
             body { background: white; }
-            .boleta-container { box-shadow: none; border: none; margin: 0; width: 100%; }
+            .boleta-container {
+                box-shadow: none;
+                border: none;
+                margin: 0;
+                width: 100%;
+            }
         }
     </style>
 </head>
+
 <body>
 
 <div class="container">
     <div class="boleta-container">
+
+        <!-- ENCABEZADO -->
         <div class="text-center mb-4">
-            <h1 class="fw-bold mb-0"><span style="color: #0f172a;">TECH</span><span style="color: #3b82f6;">MÓBIL</span></h1>
+            <h1 class="fw-bold mb-0">
+                <span style="color: #0f172a;">TECH</span>
+                <span style="color: #3b82f6;">MÓBIL</span>
+            </h1>
+
             <div class="linea-decorativa"></div>
+
             <p class="text-secondary small mb-0">RUC: 20123456789</p>
             <p class="text-secondary small">Arequipa, Perú</p>
 
@@ -43,15 +65,28 @@
             </div>
         </div>
 
+        <!-- DATOS DEL CLIENTE -->
+        <div class="mb-4 p-3 border border-secondary rounded">
+            <h6>DATOS DEL CLIENTE</h6>
+            <div class="input-group mb-2">
+                <input type="text" id="dniBusqueda" class="form-control" placeholder="Ingrese DNI">
+                <button class="btn btn-outline-primary" onclick="buscarCliente()">BUSCAR</button>
+            </div>
+            <p id="nombreCliente" class="small text-secondary">Cliente no identificado</p>
+        </div>
+
+        <!-- FECHA -->
         <div class="row mb-4">
             <div class="col-12">
-                <p class="mb-1"><strong>Fecha de emisión:</strong>
+                <p class="mb-1">
+                    <strong>Fecha de emisión:</strong>
                     <span th:text="${#dates.format(fecha, 'dd/MM/yyyy HH:mm')}">01/01/2026</span>
                 </p>
                 <p class="mb-1"><strong>Moneda:</strong> Soles (S/)</p>
             </div>
         </div>
 
+        <!-- TABLA -->
         <table class="table table-hover border-top">
             <thead class="table-light">
             <tr>
@@ -62,35 +97,76 @@
             </thead>
             <tbody>
             <tr th:each="item : ${items}">
-                <td th:text="${item.p.marca + ' ' + item.p.modelo}">Nombre del Producto</td>
+                <td th:text="${item.p.marca + ' ' + item.p.modelo}">Producto</td>
                 <td class="text-center" th:text="${item.cant}">1</td>
-                <td class="text-end" th:text="'S/ ' + ${#numbers.formatDecimal(item.sub, 1, 2)}">S/ 0.00</td>
+                <td class="text-end"
+                    th:text="'S/ ' + ${#numbers.formatDecimal(item.sub, 1, 2)}">
+                    S/ 0.00
+                </td>
             </tr>
             </tbody>
         </table>
 
+        <!-- TOTAL -->
         <div class="row justify-content-end mt-4">
             <div class="col-md-5 text-end">
                 <div class="d-flex justify-content-between border-top pt-2">
                     <span class="fw-bold fs-4">TOTAL:</span>
-                    <span class="fw-bold fs-4 text-primary" th:text="'S/ ' + ${#numbers.formatDecimal(total, 1, 2)}">S/ 0.00</span>
+                    <span class="fw-bold fs-4 text-primary"
+                          th:text="'S/ ' + ${#numbers.formatDecimal(total, 1, 2)}">
+                        S/ 0.00
+                    </span>
                 </div>
             </div>
         </div>
 
+        <!-- BOTONES -->
         <div class="text-center mt-5">
-            <p class="text-secondary small">¡Gracias por su preferencia! Esta es una representación impresa de la boleta electrónica.</p>
+            <p class="text-secondary small">
+                ¡Gracias por su preferencia! Esta es una representación impresa de la boleta electrónica.
+            </p>
 
             <div class="d-flex justify-content-center gap-2 mt-3 d-print-none">
                 <button onclick="window.print()" class="btn btn-dark px-4">
                     <i class="bi bi-printer"></i> Imprimir
                 </button>
-                <a th:href="@{/}" class="btn btn-outline-secondary px-4">Volver a la Tienda</a>
+                <a th:href="@{/}" class="btn btn-outline-secondary px-4">
+                    Volver a la Tienda
+                </a>
             </div>
         </div>
+
     </div>
 </div>
 
+<!-- SCRIPT -->
+<script>
+    function buscarCliente() {
+        let dni = document.getElementById('dniBusqueda').value;
+
+        if (!dni) {
+            alert("Ingrese un DNI");
+            return;
+        }
+
+        fetch('/clientes/buscar?dni=' + dni)
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    document.getElementById('nombreCliente').innerText =
+                        "Cliente: " + data.nombre;
+                } else {
+                    alert("Cliente no encontrado.");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Error al buscar cliente");
+            });
+    }
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

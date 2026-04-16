@@ -4,6 +4,7 @@ import com.example.celulares.model.Celular;
 import com.example.celulares.repository.CelularRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -12,9 +13,9 @@ public class CelularServiceImpl implements CelularService {
     @Autowired
     private CelularRepository celularRepository;
 
-    // FÍJATE AQUÍ: Debe llamarse obtenerTodos, NO listarTodos
+    // ✔ Usa SOLO este método (consistente con tu proyecto)
     @Override
-    public List<Celular> obtenerTodos() {
+    public List<Celular> listarTodos() {
         return celularRepository.findAll();
     }
 

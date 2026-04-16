@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Cliente - TechMóbil</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body class="bg-dark text-light">
+
+<div class="container mt-5">
+    <div class="card bg-secondary text-white p-4 shadow">
+
+        <h2 class="fw-bold mb-4">
+            <i class="bi bi-person-plus"></i> REGISTRAR CLIENTE
+        </h2>
+
+        <form th:action="@{/clientes/guardar}" th:object="${cliente}" method="post">
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">DNI</label>
+                    <input type="text"
+                           th:field="*{dni}"
+                           class="form-control"
+                           maxlength="8"
+                           pattern="[0-9]{8}"
+                           placeholder="Ej: 12345678"
+                           required>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Nombre Completo</label>
+                    <input type="text"
+                           th:field="*{nombre}"
+                           class="form-control"
+                           placeholder="Ej: Juan Pérez"
+                           required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Teléfono</label>
+                <input type="text"
+                       th:field="*{telefono}"
+                       class="form-control"
+                       pattern="[0-9]{9}"
+                       placeholder="Ej: 987654321">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Dirección</label>
+                <input type="text"
+                       th:field="*{direccion}"
+                       class="form-control"
+                       placeholder="Ej: Av. Lima 123">
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mb-2">
+                REGISTRAR PARA VENTA
+            </button>
+
+            <a th:href="@{/}" class="btn btn-outline-light w-100">
+                Volver
+            </a>
+
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
