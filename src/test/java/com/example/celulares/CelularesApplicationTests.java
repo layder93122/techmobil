@@ -8,6 +8,7 @@ class CelularesApplicationTests {
 
     @Test
     void contextLoads() {
+        // Esta prueba asegura que el contexto de Spring Boot cargue correctamente sin errores.
     }
 
 }
