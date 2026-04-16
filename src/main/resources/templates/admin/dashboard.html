@@ -7,22 +7,27 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Icons (CORREGIDO) -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <style>
-        body { background: #001a3d; color: white; font-family: sans-serif; }
+    <!-- SCRIPT AGREGADO (CORREGIDO EN UNA SOLA LÍNEA) -->
+    <script src="https://cdn.example.com/v5.3.6/script.js" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC"></script>
 
+    <style>
+        body {
+            background: #001a3d;
+            color: white;
+            font-family: sans-serif;
+        }
         .glass-card {
             background: rgba(255,255,255,0.05);
             backdrop-filter: blur(10px);
             border-radius: 15px;
             border: 1px solid rgba(255,255,255,0.1);
         }
-
         .icon-box-mini {
             display: flex;
             align-items: center;
@@ -30,3 +35,144 @@
         }
     </style>
 </head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg mb-4" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1);">
+    <div class="container-fluid px-4">
+
+        <div class="d-flex align-items-center">
+            <div class="icon-box-mini me-2" style="background: #3b82f6; width: 35px; height: 35px; border-radius: 8px;">
+                <i class="bi bi-phone-vibrate text-white"></i>
+            </div>
+            <div>
+                <h6 class="text-white mb-0 fw-bold">TECHMÓBIL</h6>
+                <small class="text-secondary" style="font-size: 0.6rem;">Sistema Empresarial</small>
+            </div>
+        </div>
+
+        <div class="ms-auto d-flex align-items-center gap-2">
+            <a th:href="@{/admin/dashboard}" class="btn btn-primary btn-sm rounded-3 px-3">
+                <i class="bi bi-grid-1x2 me-1"></i> Dashboard
+            </a>
+
+            <a th:href="@{/}" class="btn btn-outline-light btn-sm rounded-3 px-3 border-0" style="background: rgba(255,255,255,0.05);">
+                <i class="bi bi-bag me-1"></i> Catálogo
+            </a>
+
+            <a th:href="@{/nuevo}" class="btn btn-outline-light btn-sm rounded-3 px-3 border-0" style="background: rgba(255,255,255,0.05);">
+                <i class="bi bi-file-earmark-text me-1"></i> Registro
+            </a>
+
+            <div class="ms-3 ps-3 border-start border-secondary">
+                <a th:href="@{/logout}" class="btn btn-danger btn-sm rounded-circle">
+                    <i class="bi bi-power"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- CONTENIDO -->
+<div class="container py-4">
+    <h1 class="fw-bold mb-4">PANEL ADMINISTRATIVO</h1>
+
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="glass-card p-4 text-center">
+                <small class="text-secondary">Ventas Hoy</small>
+                <h2 class="fw-bold">23</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="glass-card p-4 text-center">
+                <small class="text-secondary">Ingresos Mes</small>
+                <h2 class="fw-bold">S/ 223,020.00</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="glass-card p-4">
+                <h5 class="text-white-50">Ventas del Mes</h5>
+                <canvas id="ventasChart"></canvas>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="glass-card p-4">
+                <h5 class="text-white-50">Ingresos Totales (S/.)</h5>
+                <canvas id="ingresosChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5 glass-card p-4">
+        <h4 class="text-danger mb-4">⚠️ ALERTAS DE STOCK BAJO</h4>
+
+        <table class="table table-dark">
+            <thead>
+                <tr><th>Producto</th><th>Stock</th><th>Acción</th></tr>
+            </thead>
+            <tbody>
+                <tr th:each="cel : ${alertasStock}">
+                    <td th:text="${cel.marca + ' ' + cel.modelo}"></td>
+                    <td class="text-warning fw-bold" th:text="${cel.stock}"></td>
+                    <td><button class="btn btn-primary btn-sm">Reabastecer</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+const chartOptions = {
+    responsive: true,
+    plugins: {
+        legend: { labels: { color: '#fff' } }
+    },
+    scales: {
+        y: {
+            grid: { color: 'rgba(255,255,255,0.1)' },
+            ticks: { color: '#888' }
+        },
+        x: {
+            grid: { display: false },
+            ticks: { color: '#888' }
+        }
+    }
+};
+
+new Chart(document.getElementById('ventasChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Ene','Feb','Mar','Abr','May','Jun'],
+        datasets: [{
+            label: 'Ventas',
+            data: [45,52,48,61,55,68],
+            backgroundColor: '#3b82f6'
+        }]
+    },
+    options: chartOptions
+});
+
+new Chart(document.getElementById('ingresosChart'), {
+    type: 'line',
+    data: {
+        labels: ['Ene','Feb','Mar','Abr','May','Jun'],
+        datasets: [{
+            label: 'Ingresos',
+            data: [120000,150000,140000,170000,155000,190000],
+            borderColor: '#3b82f6',
+            fill: true
+        }]
+    },
+    options: chartOptions
+});
+</script>
+
+</body>
+</html>
