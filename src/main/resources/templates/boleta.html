@@ -1,14 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boleta de Venta - TechMóbil</title>
 
-    <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
@@ -47,8 +45,7 @@
 <div class="container">
     <div class="boleta-container">
 
-        <!-- ENCABEZADO -->
-        <div class="text-center mb-4">
+        <header class="text-center mb-4">
             <h1 class="fw-bold mb-0">
                 <span style="color: #0f172a;">TECH</span>
                 <span style="color: #3b82f6;">MÓBIL</span>
@@ -60,22 +57,20 @@
             <p class="text-secondary small">Arequipa, Perú</p>
 
             <div class="mt-4 p-2 bg-light border">
-                <h5 class="fw-bold mb-1">BOLETA DE VENTA ELECTRÓNICA</h5>
+                <h2 class="h5 fw-bold mb-1">BOLETA DE VENTA ELECTRÓNICA</h2>
                 <p class="mb-0 text-primary fw-bold" th:text="${nroBoleta}">BOL-000</p>
             </div>
-        </div>
+        </header>
 
-        <!-- DATOS DEL CLIENTE -->
-        <div class="mb-4 p-3 border border-secondary rounded">
-            <h6>DATOS DEL CLIENTE</h6>
+        <section class="mb-4 p-3 border border-secondary rounded">
+            <h3 class="h6">DATOS DEL CLIENTE</h3>
             <div class="input-group mb-2">
-                <input type="text" id="dniBusqueda" class="form-control" placeholder="Ingrese DNI">
-                <button class="btn btn-outline-primary" onclick="buscarCliente()">BUSCAR</button>
+                <input type="text" id="dniBusqueda" class="form-control" placeholder="Ingrese DNI" aria-label="DNI del cliente">
+                <button type="button" class="btn btn-outline-primary" onclick="buscarCliente()">BUSCAR</button>
             </div>
             <p id="nombreCliente" class="small text-secondary">Cliente no identificado</p>
-        </div>
+        </section>
 
-        <!-- FECHA -->
         <div class="row mb-4">
             <div class="col-12">
                 <p class="mb-1">
@@ -86,13 +81,12 @@
             </div>
         </div>
 
-        <!-- TABLA -->
         <table class="table table-hover border-top">
             <thead class="table-light">
             <tr>
-                <th>Descripción</th>
-                <th class="text-center">Cant.</th>
-                <th class="text-end">Total</th>
+                <th scope="col">Descripción</th>
+                <th scope="col" class="text-center">Cant.</th>
+                <th scope="col" class="text-end">Total</th>
             </tr>
             </thead>
             <tbody>
@@ -107,7 +101,6 @@
             </tbody>
         </table>
 
-        <!-- TOTAL -->
         <div class="row justify-content-end mt-4">
             <div class="col-md-5 text-end">
                 <div class="d-flex justify-content-between border-top pt-2">
@@ -120,29 +113,31 @@
             </div>
         </div>
 
-        <!-- BOTONES -->
-        <div class="text-center mt-5">
+        <footer class="text-center mt-5">
             <p class="text-secondary small">
                 ¡Gracias por su preferencia! Esta es una representación impresa de la boleta electrónica.
             </p>
 
             <div class="d-flex justify-content-center gap-2 mt-3 d-print-none">
-                <button onclick="window.print()" class="btn btn-dark px-4">
+                <button type="button" onclick="window.print()" class="btn btn-dark px-4">
                     <i class="bi bi-printer"></i> Imprimir
                 </button>
                 <a th:href="@{/}" class="btn btn-outline-secondary px-4">
                     Volver a la Tienda
                 </a>
             </div>
-        </div>
+        </footer>
 
     </div>
 </div>
 
-<!-- SCRIPT -->
 <script>
+    /**
+     * Busca los datos de un cliente mediante su DNI.
+     * Realiza una petición asíncrona al controlador /clientes/buscar.
+     */
     function buscarCliente() {
-        let dni = document.getElementById('dniBusqueda').value;
+        const dni = document.getElementById('dniBusqueda').value;
 
         if (!dni) {
             alert("Ingrese un DNI");
@@ -150,18 +145,22 @@
         }
 
         fetch('/clientes/buscar?dni=' + dni)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error("Error en la respuesta del servidor");
+                return response.json();
+            })
             .then(data => {
-                if (data) {
-                    document.getElementById('nombreCliente').innerText =
-                        "Cliente: " + data.nombre;
+                const displayNombre = document.getElementById('nombreCliente');
+                if (data && data.nombre) {
+                    displayNombre.innerText = "Cliente: " + data.nombre;
                 } else {
+                    displayNombre.innerText = "Cliente no encontrado";
                     alert("Cliente no encontrado.");
                 }
             })
             .catch(error => {
-                console.error(error);
-                alert("Error al buscar cliente");
+                console.error("Error al buscar cliente:", error);
+                alert("Ocurrió un error al procesar la búsqueda.");
             });
     }
 </script>
