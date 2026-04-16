@@ -13,27 +13,25 @@ import java.util.*;
 @RequestMapping("/carrito")
 public class CarritoController {
 
-    // 1. DEFINIMOS LA CONSTANTE PARA SOLUCIONAR EL ERROR DE SONARCLOUD
-    private static final String CARRITO_KEY = "carrito";
+    // SonarQube prefiere constantes públicas para rutas o llaves de sesión
+    public static final String CARRITO_KEY = "carrito";
 
     @Autowired
     private CelularService celularService;
 
-    // 1. AGREGAR AL CARRITO (Actualizado para el Sidebar)
     @PostMapping("/agregar/{id}")
     public String agregar(@PathVariable Long id, HttpSession session) {
-        // Usamos CARRITO_KEY en lugar de escribir "carrito"
         Map<Long, Integer> carrito = (Map<Long, Integer>) session.getAttribute(CARRITO_KEY);
-        if (carrito == null) carrito = new HashMap<>();
+        if (carrito == null) {
+            carrito = new HashMap<>();
+        }
 
-        // Actualizar el conteo en el mapa
         carrito.put(id, carrito.getOrDefault(id, 0) + 1);
         session.setAttribute(CARRITO_KEY, carrito);
 
-        // Actualizar cantidad total de items
+        // Actualizar totales
         session.setAttribute("totalItems", carrito.values().stream().mapToInt(i -> i).sum());
 
-        // --- LÓGICA PARA ACTUALIZAR EL SIDEBAR EN TIEMPO REAL ---
         List<Map<String, Object>> detallesSidebar = new ArrayList<>();
         double total = 0;
 
@@ -55,10 +53,8 @@ public class CarritoController {
         return "redirect:/";
     }
 
-    // 2. VER DETALLE DEL CARRITO (Página completa)
     @GetMapping("/ver")
     public String ver(HttpSession session, Model model) {
-        // Usamos CARRITO_KEY aquí también
         Map<Long, Integer> carrito = (Map<Long, Integer>) session.getAttribute(CARRITO_KEY);
         List<Map<String, Object>> items = new ArrayList<>();
         double total = 0;
@@ -81,10 +77,8 @@ public class CarritoController {
         return "carrito-detalle";
     }
 
-    // 3. GENERAR BOLETA DE VENTA
     @GetMapping("/boleta")
     public String generarBoleta(HttpSession session, Model model) {
-        // Usamos CARRITO_KEY nuevamente
         Map<Long, Integer> carrito = (Map<Long, Integer>) session.getAttribute(CARRITO_KEY);
 
         if (carrito == null || carrito.isEmpty()) {
@@ -114,10 +108,8 @@ public class CarritoController {
         return "boleta";
     }
 
-    // 4. FINALIZAR COMPRA (Limpiar todo)
     @GetMapping("/finalizar")
     public String finalizarCompra(HttpSession session) {
-        // Eliminamos usando la constante
         session.removeAttribute(CARRITO_KEY);
         session.removeAttribute("totalItems");
         session.removeAttribute("carritoItems");
