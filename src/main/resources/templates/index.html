@@ -11,8 +11,10 @@
     <style>
         body { background-color: #0f172a; color: #f8fafc; font-family: 'Segoe UI', system-ui, sans-serif; margin: 0; }
         .navbar-custom { background-color: #0f172a; border-bottom: 1px solid #1e293b; }
-        .nav-link { color: #94a3b8 !important; transition: 0.3s; }
-        .nav-link:hover { color: #3b82f6 !important; }
+        
+        /* Texto gris más claro para mejor contraste sobre fondo oscuro */
+        .nav-link { color: #cbd5e1 !important; transition: 0.3s; }
+        .nav-link:hover { color: #60a5fa !important; }
         
         .product-card {
             background-color: #1e293b;
@@ -32,10 +34,10 @@
             border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* CORRECCIÓN DE CONTRASTE: Se usó un azul más oscuro para el fondo */
+        /* CORRECCIÓN: Azul más oscuro para cumplir contraste 4.5:1 con blanco */
         .cart-icon {
             position: relative;
-            background: #2563eb; 
+            background: #1d4ed8; 
             padding: 8px 12px;
             border-radius: 8px;
             color: #ffffff !important;
@@ -44,32 +46,33 @@
             align-items: center;
             transition: background 0.2s;
         }
-        .cart-icon:hover {
-            background: #1d4ed8;
-        }
+        .cart-icon:hover { background: #1e40af; }
 
-        /* CORRECCIÓN DE CONTRASTE: Rojo más intenso para el badge */
+        /* CORRECCIÓN: Rojo intenso para máxima visibilidad */
         .cart-badge {
             position: absolute;
             top: -5px;
             right: -5px;
-            background: #dc2626; 
-            color: white;
+            background: #b91c1c; 
+            color: #ffffff;
             font-size: 0.75rem;
             font-weight: bold;
             padding: 2px 6px;
             border-radius: 50px;
-            border: 2px solid #0f172a; /* Añade separación visual del fondo */
+            border: 2px solid #0f172a;
         }
 
         .btn-primary {
-            background-color: #3b82f6;
+            background-color: #2563eb;
             border: none;
             color: #ffffff;
+            font-weight: 600;
         }
-        .btn-primary:hover {
-            background-color: #2563eb;
-        }
+        .btn-primary:hover { background-color: #1d4ed8; }
+
+        /* Ajuste de color para textos secundarios/mutes */
+        .text-light-custom { color: #94a3b8; }
+        .text-info-custom { color: #38bdf8; }
     </style>
 </head>
 <body>
@@ -107,26 +110,26 @@
 <main class="container mt-4">
     <header class="mb-4">
         <h1 class="h2 fw-bold">Catálogo de Productos</h1>
-        <p class="text-white-50">Tienda TechMóbil</p>
+        <p class="text-light-custom">Tienda TechMóbil</p>
     </header>
 
     <section class="row g-3 mb-4" aria-label="Resumen de stock">
         <div class="col-md-4">
             <div class="stat-card">
-                <p class="small text-secondary text-uppercase fw-bold mb-1">Total Productos</p>
+                <p class="small text-light-custom text-uppercase fw-bold mb-1">Total Productos</p>
                 <h2 class="h4 mb-0" th:text="${#lists.size(lista)}">0</h2>
             </div>
         </div>
         <div class="col-md-4">
             <div class="stat-card">
-                <p class="small text-secondary text-uppercase fw-bold mb-1">Stock Total</p>
+                <p class="small text-light-custom text-uppercase fw-bold mb-1">Stock Total</p>
                 <h2 class="h4 mb-0">66</h2>
             </div>
         </div>
         <div class="col-md-4">
             <div class="stat-card">
-                <p class="small text-secondary text-uppercase fw-bold mb-1">Valor Total</p>
-                <h2 class="h4 mb-0 text-info">S/ 286,544.12</h2>
+                <p class="small text-light-custom text-uppercase fw-bold mb-1">Valor Total</p>
+                <h2 class="h4 mb-0 text-info-custom">S/ 286,544.12</h2>
             </div>
         </div>
     </section>
@@ -142,16 +145,16 @@
                 </div>
 
                 <div class="card-body p-0 d-flex flex-column">
-                    <p class="text-secondary small mb-1 text-uppercase" th:text="${c.marca}">Marca</p>
+                    <p class="text-light-custom small mb-1 text-uppercase" th:text="${c.marca}">Marca</p>
                     <h3 class="h5 fw-bold" th:text="${c.modelo}">Modelo</h3>
 
                     <div class="d-flex justify-content-between align-items-center mb-3 mt-auto">
-                        <span class="h4 text-info fw-bold mb-0" th:text="'S/ ' + ${c.precio}">S/ 0.00</span>
+                        <span class="h4 text-info-custom fw-bold mb-0" th:text="'S/ ' + ${c.precio}">S/ 0.00</span>
                         <span class="badge bg-dark text-success border border-success" th:text="'Stock: ' + ${c.stock}">0</span>
                     </div>
 
                     <form th:action="@{'/carrito/agregar/' + ${c.id}}" method="post">
-                        <button type="submit" class="btn btn-primary w-100 fw-bold">
+                        <button type="submit" class="btn btn-primary w-100 py-2">
                             <i class="bi bi-cart-plus me-2" aria-hidden="true"></i>AÑADIR AL CARRITO
                         </button>
                     </form>
@@ -161,7 +164,7 @@
     </div>
 </main>
 
-<footer class="container py-5 text-center text-white-50">
+<footer class="container py-5 text-center text-light-custom">
     <p class="small">© 2026 TechMóbil - Panel de Control</p>
 </footer>
 
