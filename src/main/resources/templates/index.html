@@ -69,6 +69,10 @@
             <span style="color:white;">TECH</span><span style="color:#3b82f6;">MÓBIL</span>
         </a>
 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
         <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
             <ul class="navbar-nav gap-3">
                 <li class="nav-item"><a class="nav-link" th:href="@{/telefonos}">Teléfonos</a></li>
@@ -80,7 +84,7 @@
 
         <div class="d-flex align-items-center gap-2">
             <a th:href="@{/nuevo}" class="btn btn-sm btn-outline-light">+ Vender</a>
-            <a th:href="@{/carrito/ver}" class="cart-icon" aria-label="Ver carrito">
+            <a th:href="@{/carrito/ver}" class="cart-icon" aria-label="Ver mi carrito de compras">
                 <i class="bi bi-bag-fill" aria-hidden="true"></i>
                 <span class="cart-badge"
                       th:if="${session.totalItems != null}"
@@ -98,7 +102,7 @@
         </div>
     </header>
 
-    <div class="row g-3 mb-4">
+    <section class="row g-3 mb-4" aria-label="Resumen de inventario">
         <div class="col-md-4">
             <div class="stat-card">
                 <span class="small text-secondary text-uppercase fw-bold">Total Productos</span>
@@ -117,34 +121,37 @@
                 <h2 class="h3 mb-0 text-info">S/ 286,544.12</h2>
             </div>
         </div>
-    </div>
+    </section>
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col" th:each="c : ${lista}">
             <article class="card product-card p-3 h-100">
-                <div class="position-relative mb-3">
+                <div class="position-relative mb-3 text-center">
                     <img th:src="@{'/imagenes/' + ${c.imagen}}"
                          class="img-fluid rounded-3"
-                         th:alt="'Imagen de ' + ${c.marca} + ' ' + ${c.modelo}">
+                         th:alt="'Imagen de smartphone ' + ${c.marca} + ' ' + ${c.modelo}"
+                         style="max-height: 200px; object-fit: contain;">
                     
                     <span class="badge badge-trending position-absolute top-0 end-0 m-2 rounded-pill">
                         TRENDING
                     </span>
                 </div>
 
-                <small class="text-secondary" th:text="${c.marca}">Marca</small>
-                <h3 class="h5 fw-bold" th:text="${c.modelo}">Modelo</h3>
+                <div class="card-body p-0">
+                    <small class="text-secondary text-uppercase" th:text="${c.marca}">Marca</small>
+                    <h3 class="h5 fw-bold" th:text="${c.modelo}">Modelo</h3>
 
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="h4 text-info fw-bold mb-0" th:text="'S/ ' + ${c.precio}">S/ 0.00</span>
-                    <span class="badge bg-dark text-success border border-success" th:text="'Stock: ' + ${c.stock}"></span>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="h4 text-info fw-bold mb-0" th:text="'S/ ' + ${c.precio}">S/ 0.00</span>
+                        <span class="badge bg-dark text-success border border-success" th:text="'Stock: ' + ${c.stock}">Stock</span>
+                    </div>
+
+                    <form th:action="@{'/carrito/agregar/' + ${c.id}}" method="post">
+                        <button type="submit" class="btn btn-primary w-100 fw-bold">
+                            <i class="bi bi-cart-plus me-2" aria-hidden="true"></i>AÑADIR AL CARRITO
+                        </button>
+                    </form>
                 </div>
-
-                <form th:action="@{'/carrito/agregar/' + ${c.id}}" method="post">
-                    <button type="submit" class="btn btn-primary w-100 fw-bold">
-                        AÑADIR AL CARRITO
-                    </button>
-                </form>
             </article>
         </div>
     </div>
