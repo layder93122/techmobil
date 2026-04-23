@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechMóbil - Tienda de Celulares</title>
+    <title>TechMóbil - Catálogo de Celulares</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -25,6 +25,8 @@
             border: 1px solid #334155;
             transition: 0.3s;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         .product-card:hover {
             transform: translateY(-5px);
@@ -48,6 +50,7 @@
             padding: 8px 12px;
             border-radius: 8px;
             color: white;
+            text-decoration: none;
         }
         .cart-badge {
             position: absolute;
@@ -70,7 +73,7 @@
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir menú de navegación">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -85,10 +88,10 @@
 
         <div class="d-flex align-items-center gap-2">
             <a th:href="@{/nuevo}" class="btn btn-sm btn-outline-light">+ Vender</a>
-            <a th:href="@{/carrito/ver}" class="cart-icon" aria-label="Ver mi carrito de compras">
+            <a th:href="@{/carrito/ver}" class="cart-icon" aria-label="Ver carrito">
                 <i class="bi bi-bag-fill" aria-hidden="true"></i>
-                <span class="cart-badge"
-                      th:if="${session.totalItems != null}"
+                <span class="cart-badge" 
+                      th:if="${session.totalItems != null}" 
                       th:text="${session.totalItems}">0</span>
             </a>
         </div>
@@ -96,14 +99,12 @@
 </nav>
 
 <main class="container mt-4">
-    <header class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="h2 fw-bold">Catálogo de Productos</h1>
-            <p class="text-white-50">Tienda Interactiva - TechMóbil</p>
-        </div>
+    <header class="mb-4">
+        <h1 class="h2 fw-bold">Catálogo de Productos</h1>
+        <p class="text-white-50">Tienda Interactiva - TechMóbil</p>
     </header>
 
-    <section class="row g-3 mb-4" aria-label="Resumen de inventario">
+    <section class="row g-3 mb-4" aria-label="Estadísticas de inventario">
         <div class="col-md-4">
             <div class="stat-card">
                 <span class="small text-secondary text-uppercase fw-bold">Total Productos</span>
@@ -130,7 +131,7 @@
                 <div class="position-relative mb-3 text-center">
                     <img th:src="@{'/imagenes/' + ${c.imagen}}"
                          class="img-fluid rounded-3"
-                         th:alt="'Smartphone ' + ${c.marca} + ' ' + ${c.modelo}"
+                         th:alt="'Celular ' + ${c.marca} + ' ' + ${c.modelo}"
                          style="max-height: 200px; width: auto; object-fit: contain;">
                     
                     <span class="badge badge-trending position-absolute top-0 end-0 m-2 rounded-pill">
@@ -144,7 +145,7 @@
 
                     <div class="d-flex justify-content-between align-items-center mb-3 mt-auto">
                         <span class="h4 text-info fw-bold mb-0" th:text="'S/ ' + ${c.precio}">S/ 0.00</span>
-                        <span class="badge bg-dark text-success border border-success" th:text="'Stock: ' + ${c.stock}">Stock</span>
+                        <span class="badge bg-dark text-success border border-success" th:text="'Stock: ' + ${c.stock}">0</span>
                     </div>
 
                     <form th:action="@{'/carrito/agregar/' + ${c.id}}" method="post">
@@ -159,7 +160,8 @@
 </main>
 
 <footer class="container py-5 text-center text-white-50">
-    <small>© 2026 TechMóbil - Gestión de Inventario</small>
+    <hr class="border-secondary mb-4">
+    <small>© 2026 TechMóbil - Gestión Profesional de Inventario</small>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
