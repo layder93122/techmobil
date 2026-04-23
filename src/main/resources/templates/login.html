@@ -19,14 +19,14 @@
             margin: 0;
         }
         .login-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.07);
             backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 25px;
             padding: 40px;
             width: 400px;
             text-align: center;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
         }
         .icon-box {
             background: #3b82f6;
@@ -41,22 +41,27 @@
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
         }
         .form-control {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            /* Se aumentó la opacidad del fondo para mejorar el contraste del texto blanco */
+            background: rgba(0, 0, 0, 0.25); 
+            border: 1px solid rgba(255, 255, 255, 0.3);
             color: white !important;
             border-radius: 12px;
             padding: 12px 15px 12px 45px;
         }
-        .form-control::placeholder { color: rgba(255, 255, 255, 0.5); }
+        /* Placeholder con mayor contraste */
+        .form-control::placeholder { color: rgba(255, 255, 255, 0.7); }
+        
         .form-control:focus {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.4);
             border-color: #3b82f6;
-            box-shadow: none;
+            box-shadow: 0 0 0 0.25 margin-toprem rgba(59, 130, 246, 0.25);
+            outline: none;
         }
         .input-group-text-custom {
             background: transparent;
             border: none;
-            color: rgba(255, 255, 255, 0.6);
+            /* Iconos con color más claro para legibilidad */
+            color: rgba(255, 255, 255, 0.9);
             position: absolute;
             z-index: 10;
             padding: 12px 15px;
@@ -68,14 +73,18 @@
             border-radius: 12px;
             padding: 12px;
             font-weight: bold;
-            color: white;
+            color: #001a3d; /* Texto oscuro sobre fondo brillante para mejor contraste */
             transition: 0.3s;
             margin-top: 10px;
         }
         .btn-login:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(0, 150, 255, 0.4);
-            color: white;
+            color: #001a3d;
+        }
+        /* Texto secundario ajustado para legibilidad */
+        .text-custom-muted {
+            color: rgba(255, 255, 255, 0.75) !important;
         }
     </style>
 </head>
@@ -87,27 +96,27 @@
     </div>
     <header>
         <h1 class="h3 fw-bold mb-0">TECHMÓBIL</h1>
-        <p class="text-secondary small mb-4">Sistema de Gestión Empresarial</p>
+        <p class="text-custom-muted small mb-4">Sistema de Gestión Empresarial</p>
     </header>
 
     <form th:action="@{/login}" method="post">
 
-        <div th:if="${param.error}" class="alert alert-danger py-2 small" role="alert" style="background: rgba(220, 53, 69, 0.2); border: none; color: #ff8e97;">
+        <div th:if="${param.error}" class="alert alert-danger py-2 small" role="alert" style="background: rgba(220, 53, 69, 0.4); border: 1px solid #ff8e97; color: white;">
             Usuario o clave incorrectos.
         </div>
 
-        <div th:if="${param.logout}" class="alert alert-info py-2 small" role="alert" style="background: rgba(59, 130, 246, 0.2); border: none; color: #8ec5ff;">
+        <div th:if="${param.logout}" class="alert alert-info py-2 small" role="alert" style="background: rgba(59, 130, 246, 0.3); border: 1px solid #8ec5ff; color: white;">
             Has cerrado sesión correctamente.
         </div>
 
         <div class="text-start mb-3 position-relative">
-            <label for="username" class="small fw-bold mb-1 text-uppercase" style="font-size: 0.7rem; color: #3b82f6;">Usuario</label>
+            <label for="username" class="small fw-bold mb-1 text-uppercase" style="font-size: 0.7rem; color: #6eb0ff;">Usuario</label>
             <span class="input-group-text-custom"><i class="bi bi-person" aria-hidden="true"></i></span>
             <input type="text" id="username" name="username" class="form-control" placeholder="Ingrese su usuario" required autocomplete="username">
         </div>
 
         <div class="text-start mb-4 position-relative">
-            <label for="password" class="small fw-bold mb-1 text-uppercase" style="font-size: 0.7rem; color: #3b82f6;">Contraseña</label>
+            <label for="password" class="small fw-bold mb-1 text-uppercase" style="font-size: 0.7rem; color: #6eb0ff;">Contraseña</label>
             <span class="input-group-text-custom"><i class="bi bi-lock" aria-hidden="true"></i></span>
             <input type="password" id="password" name="password" class="form-control" placeholder="Ingrese su contraseña" required autocomplete="current-password">
         </div>
@@ -117,7 +126,7 @@
         </button>
     </form>
 
-    <footer class="mt-5 text-secondary" style="font-size: 0.7rem;">
+    <footer class="mt-5 text-custom-muted" style="font-size: 0.7rem;">
         <p>© 2026 TECHMÓBIL - Deep Blue Edition v2.0</p>
     </footer>
 </main>
