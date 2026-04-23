@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechMóbil - Tienda de Celulares</title>
+    <title>TechMóbil - Catálogo Profesional</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -18,7 +18,6 @@
             border-radius: 15px;
             border: 1px solid #334155;
             transition: 0.3s;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
             height: 100%;
@@ -58,7 +57,7 @@
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Alternar navegación">
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Abrir navegación">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -73,7 +72,7 @@
 
         <div class="d-flex align-items-center gap-2">
             <a th:href="@{/nuevo}" class="btn btn-sm btn-outline-light">+ Vender</a>
-            <a th:href="@{/carrito/ver}" class="cart-icon" aria-label="Carrito de compras">
+            <a th:href="@{/carrito/ver}" class="cart-icon" aria-label="Ver carrito de compras">
                 <i class="bi bi-bag-fill" aria-hidden="true"></i>
                 <span class="cart-badge" th:if="${session.totalItems != null}" th:text="${session.totalItems}">0</span>
             </a>
@@ -84,10 +83,10 @@
 <main class="container mt-4">
     <header class="mb-4">
         <h1 class="h2 fw-bold">Catálogo de Productos</h1>
-        <p class="text-white-50">Tienda Interactiva - TechMóbil</p>
+        <p class="text-white-50">Tienda TechMóbil</p>
     </header>
 
-    <section class="row g-3 mb-4" aria-label="Resumen de inventario">
+    <section class="row g-3 mb-4" aria-label="Resumen de stock">
         <div class="col-md-4">
             <div class="stat-card">
                 <p class="small text-secondary text-uppercase fw-bold mb-1">Total Productos</p>
@@ -114,8 +113,8 @@
                 <div class="text-center mb-3">
                     <img th:src="@{'/imagenes/' + ${c.imagen}}"
                          class="img-fluid rounded-3"
-                         th:alt="'Smartphone ' + ${c.marca} + ' ' + ${c.modelo}"
-                         style="max-height: 200px; width: auto; object-fit: contain;">
+                         th:alt="'Celular ' + ${c.marca} + ' ' + ${c.modelo}"
+                         style="max-height: 200px; object-fit: contain;">
                 </div>
 
                 <div class="card-body p-0 d-flex flex-column">
@@ -139,7 +138,7 @@
 </main>
 
 <footer class="container py-5 text-center text-white-50">
-    <p class="small">© 2026 TechMóbil - Sistema de Gestión</p>
+    <p class="small">© 2026 TechMóbil - Panel de Control</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
