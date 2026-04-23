@@ -13,6 +13,7 @@
         .navbar-custom { background-color: #0f172a; border-bottom: 1px solid #1e293b; }
         .nav-link { color: #94a3b8 !important; transition: 0.3s; }
         .nav-link:hover { color: #3b82f6 !important; }
+        
         .product-card {
             background-color: #1e293b;
             border-radius: 15px;
@@ -23,28 +24,51 @@
             height: 100%;
         }
         .product-card:hover { transform: translateY(-5px); border-color: #3b82f6; }
+        
         .stat-card {
             background: rgba(255,255,255,0.05);
             border-radius: 15px;
             padding: 15px;
             border: 1px solid rgba(255,255,255,0.1);
         }
+
+        /* CORRECCIÓN DE CONTRASTE: Se usó un azul más oscuro para el fondo */
         .cart-icon {
             position: relative;
-            background: #3b82f6;
+            background: #2563eb; 
             padding: 8px 12px;
             border-radius: 8px;
-            color: white;
+            color: #ffffff !important;
             text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: background 0.2s;
         }
+        .cart-icon:hover {
+            background: #1d4ed8;
+        }
+
+        /* CORRECCIÓN DE CONTRASTE: Rojo más intenso para el badge */
         .cart-badge {
             position: absolute;
             top: -5px;
             right: -5px;
-            background: #ef4444;
-            font-size: 0.7rem;
+            background: #dc2626; 
+            color: white;
+            font-size: 0.75rem;
+            font-weight: bold;
             padding: 2px 6px;
-            border-radius: 50%;
+            border-radius: 50px;
+            border: 2px solid #0f172a; /* Añade separación visual del fondo */
+        }
+
+        .btn-primary {
+            background-color: #3b82f6;
+            border: none;
+            color: #ffffff;
+        }
+        .btn-primary:hover {
+            background-color: #2563eb;
         }
     </style>
 </head>
