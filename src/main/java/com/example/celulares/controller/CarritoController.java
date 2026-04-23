@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 @Controller
@@ -23,8 +24,8 @@ public class CarritoController {
     @Autowired
     private CelularService celularService;
 
-    // Instancia de Random reutilizable para evitar crear múltiples objetos
-    private final Random random = new Random();
+    // SOLUCIÓN AL SECURITY HOTSPOT: Se usa SecureRandom en lugar de Random
+    private final SecureRandom secureRandom = new SecureRandom();
 
     // 1. AGREGAR AL CARRITO
     @PostMapping("/agregar/{id}")
@@ -114,8 +115,8 @@ public class CarritoController {
         model.addAttribute(ATTR_TOTAL, totalAcumulado);
         model.addAttribute("fecha", new java.util.Date());
         
-        // SOLUCIÓN AL WARNING: Usamos nextInt(1000) en lugar de Math.random()
-        model.addAttribute("nroBoleta", "BOL-00" + random.nextInt(1000));
+        // Uso de secureRandom para el número de boleta
+        model.addAttribute("nroBoleta", "BOL-00" + secureRandom.nextInt(1000));
 
         return "boleta";
     }
