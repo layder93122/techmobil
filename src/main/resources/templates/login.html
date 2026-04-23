@@ -41,27 +41,25 @@
             box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
         }
         .form-control {
-            /* Se aumentó la opacidad del fondo para mejorar el contraste del texto blanco */
-            background: rgba(0, 0, 0, 0.25); 
+            /* Fondo oscurecido para contraste WCAG AA con texto blanco */
+            background: rgba(0, 0, 0, 0.3) !important;
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white !important;
             border-radius: 12px;
             padding: 12px 15px 12px 45px;
         }
-        /* Placeholder con mayor contraste */
-        .form-control::placeholder { color: rgba(255, 255, 255, 0.7); }
-        
+        .form-control::placeholder { 
+            color: rgba(255, 255, 255, 0.7); 
+        }
         .form-control:focus {
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.45) !important;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 0.25 margin-toprem rgba(59, 130, 246, 0.25);
-            outline: none;
+            box-shadow: none;
         }
         .input-group-text-custom {
             background: transparent;
             border: none;
-            /* Iconos con color más claro para legibilidad */
-            color: rgba(255, 255, 255, 0.9);
+            color: rgba(255, 255, 255, 0.8);
             position: absolute;
             z-index: 10;
             padding: 12px 15px;
@@ -73,18 +71,18 @@
             border-radius: 12px;
             padding: 12px;
             font-weight: bold;
-            color: #001a3d; /* Texto oscuro sobre fondo brillante para mejor contraste */
+            /* Texto oscuro sobre fondo claro para máximo contraste */
+            color: #003366 !important;
             transition: 0.3s;
             margin-top: 10px;
         }
         .btn-login:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 20px rgba(0, 150, 255, 0.4);
-            color: #001a3d;
+            color: #002244 !important;
         }
-        /* Texto secundario ajustado para legibilidad */
         .text-custom-muted {
-            color: rgba(255, 255, 255, 0.75) !important;
+            color: rgba(255, 255, 255, 0.75);
         }
     </style>
 </head>
@@ -110,13 +108,13 @@
         </div>
 
         <div class="text-start mb-3 position-relative">
-            <label for="username" class="small fw-bold mb-1 text-uppercase" style="font-size: 0.7rem; color: #6eb0ff;">Usuario</label>
+            <label for="username" class="small fw-bold mb-1 text-uppercase" style="font-size: 0.7rem; color: #7cb1ff;">Usuario</label>
             <span class="input-group-text-custom"><i class="bi bi-person" aria-hidden="true"></i></span>
             <input type="text" id="username" name="username" class="form-control" placeholder="Ingrese su usuario" required autocomplete="username">
         </div>
 
         <div class="text-start mb-4 position-relative">
-            <label for="password" class="small fw-bold mb-1 text-uppercase" style="font-size: 0.7rem; color: #6eb0ff;">Contraseña</label>
+            <label for="password" class="small fw-bold mb-1 text-uppercase" style="font-size: 0.7rem; color: #7cb1ff;">Contraseña</label>
             <span class="input-group-text-custom"><i class="bi bi-lock" aria-hidden="true"></i></span>
             <input type="password" id="password" name="password" class="form-control" placeholder="Ingrese su contraseña" required autocomplete="current-password">
         </div>
