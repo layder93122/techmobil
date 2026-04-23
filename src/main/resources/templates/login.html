@@ -60,7 +60,7 @@
             position: absolute;
             z-index: 10;
             padding: 12px 15px;
-            top: 26px; /* Ajustado para alinear con el input bajo el label */
+            top: 28px; /* Ajuste fino de alineación */
         }
         .btn-login {
             background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
@@ -94,16 +94,20 @@
             Usuario o clave incorrectos.
         </div>
 
+        <div th:if="${param.logout}" class="alert alert-info py-2 small" role="alert" style="background: rgba(59, 130, 246, 0.2); border: none; color: #8ec5ff;">
+            Has cerrado sesión correctamente.
+        </div>
+
         <div class="text-start mb-3 position-relative">
             <label for="username" class="small fw-bold mb-1 text-uppercase" style="font-size: 0.7rem; color: #3b82f6;">Usuario</label>
             <span class="input-group-text-custom"><i class="bi bi-person" aria-hidden="true"></i></span>
-            <input type="text" id="username" name="username" class="form-control" placeholder="Ingrese su usuario" required>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Ingrese su usuario" required autocomplete="username">
         </div>
 
         <div class="text-start mb-4 position-relative">
             <label for="password" class="small fw-bold mb-1 text-uppercase" style="font-size: 0.7rem; color: #3b82f6;">Contraseña</label>
             <span class="input-group-text-custom"><i class="bi bi-lock" aria-hidden="true"></i></span>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Ingrese su contraseña" required>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Ingrese su contraseña" required autocomplete="current-password">
         </div>
 
         <button type="submit" class="btn btn-login w-100">
