@@ -7,13 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.*;
 
 @Controller
 @RequestMapping("/carrito")
 public class CarritoController {
 
-    // 1. CONSTANTES PARA ELIMINAR CODE SMELLS (Mantenibilidad)
+    // CONSTANTES PARA ELIMINAR CODE SMELLS
     public static final String CARRITO_KEY = "carrito";
     private static final String REDIRECT_HOME = "redirect:/";
     private static final String ATTR_ITEMS = "items";
@@ -21,6 +22,9 @@ public class CarritoController {
 
     @Autowired
     private CelularService celularService;
+
+    // Instancia de Random reutilizable para evitar crear múltiples objetos
+    private final Random random = new Random();
 
     // 1. AGREGAR AL CARRITO
     @PostMapping("/agregar/{id}")
@@ -109,7 +113,9 @@ public class CarritoController {
         model.addAttribute(ATTR_ITEMS, detalles);
         model.addAttribute(ATTR_TOTAL, totalAcumulado);
         model.addAttribute("fecha", new java.util.Date());
-        model.addAttribute("nroBoleta", "BOL-00" + (int)(Math.random() * 1000));
+        
+        // SOLUCIÓN AL WARNING: Usamos nextInt(1000) en lugar de Math.random()
+        model.addAttribute("nroBoleta", "BOL-00" + random.nextInt(1000));
 
         return "boleta";
     }
